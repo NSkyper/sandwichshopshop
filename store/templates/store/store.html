@@ -1,0 +1,25 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+<center><font color="black" size="20px" id="productshop">รายการสินค้า</font></center>
+<br>
+<div class="row">
+    {% for product in products %}
+    <div class="col-lg-3 mt-4">
+        <img class="thumbnail" src="{{product.imageURL}}"></img>
+        <div class="box-element product">
+            <h6><strong class="font_Itim1">{{product.name}}</strong></h6>
+            <hr>
+            
+            <button data-product={{product.id}} data-action="add" 
+                class="btn btn-outline-danger add-btn update-cart">ใส่ตระกร้า</button>
+            <h4 style="display: inline-block; float: right"><strong class="font_Itim1">{{product.price|floatformat:2}} บาท</strong></h4>
+    
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock content %}

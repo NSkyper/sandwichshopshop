@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<title>SandWichShop</title>
+	<link rel="icon" href="{% static 'image/logo.png'%}">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+	<link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Itim">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+	<script type="text/javascript">
+		var user = '{{request.user}}'
+
+		function getToken(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = cookies[i].trim();
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getToken('csrftoken')
+
+		function getCookie(name) {
+		    // Split cookie string and get all individual name=value pairs in an array
+		    var cookieArr = document.cookie.split(";");
+
+		    // Loop through the array elements
+		    for(var i = 0; i < cookieArr.length; i++) {
+		        var cookiePair = cookieArr[i].split("=");
+
+		        /* Removing whitespace at the beginning of the cookie name
+		        and compare it with the given string */
+		        if(name == cookiePair[0].trim()) {
+		            // Decode the cookie value and return
+		            return decodeURIComponent(cookiePair[1]);
+		        }
+		    }
+
+		    // Return null if not found
+		    return null;
+		}
+		var cart = JSON.parse(getCookie('cart'))
+
+		if (cart == undefined){
+			cart = {}
+			console.log('Cart Created!', cart)
+			document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+		}
+		console.log('Cart:', cart)
+	
+	</script>
+
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-white bg-white">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+		<img src="{% static 'images/logo.png' %} " width="100px"></img>
+	  <a class="navbar-brand mx-3 font_size" href="{% url 'store' %}">SandWichShop</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    <ul class="navbar-nav mr-auto">
+	      <li class="nav-item active">
+	        <a class="nav-link font_Itim" href="{% url 'store' %}" id="sandwichnotebook">แซนวิชปังนุ่มโน๊ตบรุ๊ค <span class="sr-only"></span></a>
+	      </li>
+
+	    </ul>
+	    <div class="form-inline my-2 my-lg-0">
+	    	<font color="#ffffff">_____________________________________________________________________________________________________________________</font>
+	     	
+	     	<a href="{% url 'cart' %}">
+	    		<img  id="cart-icon"src="{% static 'images/cart.png' %}"><p id="cart-total">{{cartItems}}</p></img></a>
+	    	
+	    	<button type="button" class="btn btn-outline-dark" onclick="togglelang()" id="language">TH/EN </button>
+	    </div>
+	  </div>
+	</nav>
+
+     <div class="container">
+            <br>
+            {% block content %}
+
+
+            {% endblock content %}
+         </div>
+
+<footer class="text-muted py-4 card bg-pink5">
+  <div class="container">
+    <p class="float-end mb-4 text_balck1">
+
+				&copy;มหาวิทยาลัยราชภัฏสวนสุนันทา<br>
+				เว็บไซต์นี้จัดทำเพื่อการศึกษาเท่านั้น
+    </p>
+
+    
+
+  <font color="black">
+    <p class="text_balck" id="addressshop">ที่อยู่ร้านค้า</p> 
+    <p>ร้านกาแฟป้าสมบัติ
+หน้าธนาคารกรุงเทพ
+สาขาแก่งคอย
+จ.สระบุรี </p>
+<p class="text_balck" id="contactshop">ติดต่อได้ที่</p>
+<a href="https://www.facebook.com/profile.php?id=100004073503130"  target="blank">Facebook</a>
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+<a href="https://line.me/ti/p/oJ0p1Szo4d" target="blank">Line</a>
+</font>
+  </div>
+</footer>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+ 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
+
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+	<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+
+	<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+
+
+	   <script> 
+      var th ={
+        sandwichnotebook:'แซนวิชปังนุ่มโน๊ตบรุ๊ค',
+        Contact: 'ติดต่อ',
+        productshop: 'รายการสินค้า',
+        language: 'TH/EN',
+        addressshop: 'ที่อยู่ร้านค้า',
+        contactshop: 'ติดต่อได้ที่',
+        ContinueShopping:'ย้อนกลับ',
+        productcart:'สินค้า',
+        pricecart:'ราคา',
+        quantitycart:'จำนวน',
+        Totalcart:'ราคารวม',
+        checkout:'ชำระเงิน',
+        ContinueCart:'ย้อนกลับ',
+        OrderSummary:'คำสั่งซื้อทั้งหมด',
+      }
+
+      var en ={
+        sandwichnotebook:'SandwichNotebook',
+        login: 'Login',
+        register: 'Register',
+        productshop: 'Category',
+        language: 'EN/TH',
+        addressshop :'Address',
+        contactshop: 'Contact',
+        ContinueShopping:'Back',
+        productcart:'Item',
+        pricecart:'Price',
+        quantitycart:'Quantity',
+        Totalcart:'Total',
+        checkout:'Checkout',
+        ContinueCart:'Back',
+        OrderSummary:'Order Summary',
+        Contact:'Contact',
+      }
+
+      function renderlang(){
+
+        if(!localStorage.lang){
+          localStorage.setItem('lang','th')
+        }
+        else {
+          $("#sandwichnotebook").text( settext('sandwichnotebook') )
+          $("#Contact").text( settext('Contact') )
+          $("#productshop").text( settext('productshop') )
+          $("#language").text( settext('language') )
+          $("#addressshop").text( settext('addressshop') )
+          $("#contactshop").text( settext('contactshop') )
+          $("#ContinueShopping").text( settext('ContinueShopping') )
+          $("#productcart").text( settext('productcart') )
+          $("#pricecart").text( settext('pricecart') )
+          $("#quantitycart").text( settext('quantitycart') )
+          $("#Totalcart").text( settext('Totalcart') )
+          $("#checkout").text( settext('checkout') )
+          $("#ContinueCart").text( settext('ContinueCart') )
+          $("#OrderSummary").text( settext('OrderSummary') )
+        }
+      }
+
+      function settext(key) {
+        if(localStorage.lang == 'en'){
+          return en[key];
+
+        }
+        else{
+          return th[key];
+        }
+
+      }
+
+      function togglelang(){
+        if(localStorage.lang == 'en'){
+          localStorage.setItem('lang','th')
+        }
+        else if (localStorage.lang == 'th')
+          localStorage.setItem('lang','en')
+        
+
+        renderlang();
+
+      }
+    </script>
+
+
+
+</body>
+</html>
